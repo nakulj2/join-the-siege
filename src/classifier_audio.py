@@ -4,7 +4,7 @@ from src.utils.audio_features import extract_librosa_features
 import joblib
 import os
 
-MODEL_PATH = "model/logistic_regression.pkl"
+MODEL_PATH = "model/audio/logistic_regression.pkl"
 model = joblib.load(MODEL_PATH) if os.path.exists(MODEL_PATH) else None
 
 def classify_audio_file(file: FileStorage):

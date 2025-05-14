@@ -3,7 +3,7 @@ from src.utils.extract_text import extract_text
 import joblib
 import os
 
-MODEL_PATH = "model/logistic_regression.pkl"
+MODEL_PATH = "model/text/logistic_regression.pkl"
 model = joblib.load(MODEL_PATH) if os.path.exists(MODEL_PATH) else None
 
 def classify_text_file(file: FileStorage):
