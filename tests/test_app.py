@@ -31,7 +31,6 @@ def test_no_selected_file(client):
 
 def test_success(client, mocker):
     mocker.patch('src.app.classify_file', return_value='test_class')
-
     data = {'file': (BytesIO(b"dummy content"), 'file.pdf')}
     response = client.post('/classify_file', data=data, content_type='multipart/form-data')
     assert response.status_code == 200
