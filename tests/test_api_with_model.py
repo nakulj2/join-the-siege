@@ -4,7 +4,7 @@ from src.app import app
 from src.utils.extract_text import extract_text
 
 def test_file_classification_with_real_pdf():
-    model_path = "model/logistic_regression.pkl"
+    model_path = "model/text/logistic_regression.pkl"
     assert os.path.exists(model_path), "Trained model not found"
     model = joblib.load(model_path)
 

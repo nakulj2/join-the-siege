@@ -5,4 +5,5 @@ venv
 __pycache__
 *.pyc
 data/**/*.mp3
-model/*.pkl
+model/text/*.pkl  
+model/audio/*.pkl

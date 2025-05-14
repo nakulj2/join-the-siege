@@ -2,7 +2,7 @@ import joblib
 import os
 
 def test_model_inference():
-    model_path = "model/logistic_regression.pkl"
+    model_path = "model/text/logistic_regression.pkl"
     assert os.path.exists(model_path), "Model not found"
 
     model = joblib.load(model_path)

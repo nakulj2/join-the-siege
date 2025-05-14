@@ -7,7 +7,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parents[1]
 SONG_FILE = BASE_DIR / "data/songs/song_1.mp3"
 PODCAST_FILE = BASE_DIR / "data/podcasts/podcast_1.mp3"
-MODEL_PATH = "model/logistic_regression.pkl"
+MODEL_PATH = "model/audio/logistic_regression.pkl"
 
 def test_song_classification():
     assert os.path.exists(MODEL_PATH), "Trained model not found"
