@@ -8,10 +8,18 @@ def extract_text(file):
 
     if filename.endswith(".pdf"):
         with pdf_open(file) as pdf:
-            return "\n".join(page.extract_text() or "" for page in pdf.pages)
+            text = []
+            for page in pdf.pages:
+                page_text = page.extract_text()
+                if page_text:
+                    text.append(page_text)
+                else:
+                    # Fallback to OCR
+                    im = page.to_image(resolution=300).original
+                    text.append(pytesseract.image_to_string(im))
+            return "\n".join(text)
 
     elif filename.endswith((".jpg", ".jpeg", ".png")):
-        # Handle both Flask file and BytesIO
         with tempfile.NamedTemporaryFile(delete=False, suffix=".jpg") as temp:
             if hasattr(file, "save"):
                 file.save(temp.name)
