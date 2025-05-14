@@ -1,17 +1,20 @@
 from werkzeug.datastructures import FileStorage
+from src.utils.extract_text import extract_text
+import joblib
+import os
+
+# Load model (only once at module level)
+MODEL_PATH = "model/logistic_regression.pkl"
+model = joblib.load(MODEL_PATH) if os.path.exists(MODEL_PATH) else None
 
 def classify_file(file: FileStorage):
-    filename = file.filename.lower()
-    # file_bytes = file.read()
+    if not model:
+        return "model_not_loaded"
 
-    if "drivers_license" in filename:
-        return "drivers_licence"
-
-    if "bank_statement" in filename:
-        return "bank_statement"
-
-    if "invoice" in filename:
-        return "invoice"
-
-    return "unknown file"
-
+    try:
+        text = extract_text(file)
+        prediction = model.predict([text])[0]
+        return prediction
+    except Exception as e:
+        print(f"[ERROR] Failed to classify file: {e}")
+        return "error"
