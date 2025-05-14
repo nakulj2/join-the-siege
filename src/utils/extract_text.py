@@ -2,6 +2,7 @@ from pdfplumber import open as pdf_open
 from PIL import Image
 import pytesseract
 import tempfile
+import sys
 
 def extract_text(file):
     filename = getattr(file, "filename", "").lower()
@@ -31,3 +32,9 @@ def extract_text(file):
             return pytesseract.image_to_string(image)
 
     return ""
+
+if __name__ == "__main__":
+    file_path = sys.argv[1]
+    with open(file_path, "rb") as f:
+        f.filename = file_path
+        print(extract_text(f))
