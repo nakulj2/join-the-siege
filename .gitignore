@@ -4,3 +4,5 @@ venv
 .vscode
 __pycache__
 *.pyc
+echo "data/**/*.mp3" >> .gitignore
+echo "model/*.pkl" >> .gitignore
