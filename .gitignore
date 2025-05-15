@@ -3,11 +3,13 @@ venv
 .idea
 .vscode
 __pycache__
+join-the-siege.git.bfg-report
 *.pyc
-data/**/*.mp3
+train_data/**/*.mp3
 model/text/*.pkl  
 model/audio/*.pkl
-data/**/*.png
+train_data/**/*.png
+test_data/**/*.png
 model/**/pytorch_model.bin
 model/**/model.safetensors
 model/**/optimizer.pt
