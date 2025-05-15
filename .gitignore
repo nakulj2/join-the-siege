@@ -17,3 +17,6 @@ model/**/scheduler.pt
 model/**/rng_state.pth
 model/**/trainer_state.json
 model/**/training_args.bin
+model/**/distilbert/**
+train_data/**
+test_data/**
