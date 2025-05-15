@@ -12,9 +12,9 @@ from src.utils.audio_features import extract_librosa_features
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parents[2]
-SONG_FILE = BASE_DIR / "data/songs/song_1.mp3"
-PODCAST_FILE = BASE_DIR / "data/podcasts/podcast_1.mp3"
-MODEL_PATH = "model/audio/logistic_regression.pkl"
+SONG_FILE = BASE_DIR / "test_data/songs/song_1.mp3"
+PODCAST_FILE = BASE_DIR / "test_data/podcasts/podcast_1.mp3"
+MODEL_PATH = "model/baseline/audio/naive_bayes.pkl"
 
 def load_and_predict(path, model):
     text = transcribe_audio(str(path))

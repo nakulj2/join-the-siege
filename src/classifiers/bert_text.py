@@ -1,16 +1,24 @@
+# src/classifiers/bert_text.py
+
+import os
 import sys
 import torch
 from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassification
-from utils.extract_text import extract_text
+from src.utils.extract_text import extract_text
 
 LABELS = ['bank_statement', 'drivers_license', 'invoice']
-MODEL_DIR = "model/distilbert/checkpoint-24"
+MODEL_PATH = "model/distilbert/text/checkpoint-28"
 
-# Load model and tokenizer
-tokenizer = DistilBertTokenizerFast.from_pretrained(MODEL_DIR)
-model = DistilBertForSequenceClassification.from_pretrained(MODEL_DIR)
+try:
+    tokenizer = DistilBertTokenizerFast.from_pretrained(MODEL_PATH)
+    model = DistilBertForSequenceClassification.from_pretrained(MODEL_PATH)
+except Exception as e:
+    print(f"[ERROR] Failed to load BERT model/tokenizer: {e}")
+    tokenizer, model = None, None
 
-def classify(text):
+def classify(text: str):
+    if not tokenizer or not model:
+        return "model_not_loaded", []
     inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True)
     with torch.no_grad():
         outputs = model(**inputs)
@@ -29,6 +37,6 @@ def main(filepath):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python predict_distilbert.py <path_to_file>")
+        print("Usage: python bert_text.py <path_to_file>")
     else:
         main(sys.argv[1])

@@ -1,23 +1,30 @@
+# src/classifiers/baseline_audio.py
+
+import os
+import joblib
 from werkzeug.datastructures import FileStorage
 from src.utils.transcribe_audio import transcribe_audio
 from src.utils.audio_features import extract_librosa_features
-import joblib
-import os
 
-MODEL_PATH = "model/audio/logistic_regression.pkl"
-model = joblib.load(MODEL_PATH) if os.path.exists(MODEL_PATH) else None
+MODEL_PATH = "model/baseline/audio/naive_bayes.pkl"
+
+try:
+    model = joblib.load(MODEL_PATH)
+except Exception as e:
+    print(f"[ERROR] Failed to load audio model: {e}")
+    model = None
 
 def classify_audio_file(file: FileStorage):
     if not model:
         return "model_not_loaded"
     try:
-        path = f"/tmp/{file.filename}"
-        file.save(path)
+        temp_path = f"/tmp/{file.filename}"
+        file.save(temp_path)
 
-        text = transcribe_audio(path)
-        features = extract_librosa_features(path)
-        input_text = f"{text} | features: {' '.join(map(str, features))}"
-        return model.predict([input_text])[0]
+        transcript = transcribe_audio(temp_path)
+        features = extract_librosa_features(temp_path)
+        combined = f"{transcript} | features: {' '.join(map(str, features))}"
+        return model.predict([combined])[0]
     except Exception as e:
         print(f"[ERROR] Audio classification failed: {e}")
         return "error"

@@ -83,10 +83,10 @@ def plot_confusion(y_true, y_pred, model_name, labels):
 def main():
     X_test, y_test = load_test_dataset()
 
-    logreg = joblib.load("model/text/logistic_regression.pkl")
-    nb = joblib.load("model/text/naive_bayes.pkl")
+    logreg = joblib.load("model/baseline/text/logistic_regression.pkl")
+    nb = joblib.load("model/baseline/text/naive_bayes.pkl")
 
-    distil_model_path = "model/distilbert/checkpoint-28"
+    distil_model_path = "model/distilbert/text/checkpoint-28"
     tokenizer = DistilBertTokenizerFast.from_pretrained(distil_model_path)
     model = DistilBertForSequenceClassification.from_pretrained(distil_model_path)
 

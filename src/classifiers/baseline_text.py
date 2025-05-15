@@ -1,10 +1,17 @@
+# src/classifiers/baseline_text.py
+
+import os
+import joblib
 from werkzeug.datastructures import FileStorage
 from src.utils.extract_text import extract_text
-import joblib
-import os
 
-MODEL_PATH = "model/text/logistic_regression.pkl"
-model = joblib.load(MODEL_PATH) if os.path.exists(MODEL_PATH) else None
+MODEL_PATH = "model/baseline/text/naive_bayes.pkl"
+
+try:
+    model = joblib.load(MODEL_PATH)
+except Exception as e:
+    print(f"[ERROR] Failed to load text model: {e}")
+    model = None
 
 def classify_text_file(file: FileStorage):
     if not model:
