@@ -3,10 +3,15 @@ import torch
 from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassification, Trainer, TrainingArguments
 from datasets import Dataset
 from sklearn.metrics import classification_report
-from src.utils.extract_text import extract_text
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from utils.extract_text import extract_text
 
 LABELS = ['bank_statement', 'drivers_license', 'invoice']
-DATA_DIR = "data"
+DATA_DIR = "train_data"
 
 def load_data():
     texts, labels = [], []
@@ -40,7 +45,7 @@ def main():
 
 
     training_args = TrainingArguments(
-        output_dir="./model/distilbert",
+        output_dir="./model/distilbert/text",
         per_device_train_batch_size=4,
         num_train_epochs=4,
         logging_steps=10

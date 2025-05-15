@@ -1,6 +1,10 @@
 # train_text_model.py
 
+import sys
 import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import joblib
 from tqdm import tqdm
 from sklearn.pipeline import make_pipeline
@@ -9,15 +13,15 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
-from src.utils.extract_text import extract_text
+from utils.extract_text import extract_text
 from collections import Counter
 import warnings
 from sklearn.exceptions import UndefinedMetricWarning
 
 warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
 
-DATA_DIR = "data"
-MODEL_DIR = "model/text"
+DATA_DIR = "train_data"
+MODEL_DIR = "model/baseline/text"
 
 def load_text_dataset():
     texts, labels = [], []

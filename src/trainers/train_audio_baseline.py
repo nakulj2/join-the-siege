@@ -1,6 +1,15 @@
-# train_audio_model.py
+# train_audio_baseline.py
 
+import warnings
+
+warnings.filterwarnings("ignore", message="FP16 is not supported on CPU; using FP32 instead")
+warnings.filterwarnings("ignore", category=FutureWarning, module="librosa")
+
+import sys
 import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import joblib
 from tqdm import tqdm
 from sklearn.pipeline import make_pipeline
@@ -9,16 +18,15 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
-from src.utils.transcribe_audio import transcribe_audio
-from src.utils.audio_features import extract_librosa_features
+from utils.transcribe_audio import transcribe_audio
+from utils.audio_features import extract_librosa_features
 from collections import Counter
-import warnings
 from sklearn.exceptions import UndefinedMetricWarning
 
 warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
 
-DATA_DIR = "data"
-MODEL_DIR = "model/audio"
+DATA_DIR = "train_data"
+MODEL_DIR = "model/baseline/audio"
 
 def load_audio_dataset():
     texts, labels = [], []
