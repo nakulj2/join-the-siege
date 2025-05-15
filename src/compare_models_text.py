@@ -86,7 +86,7 @@ def main():
     logreg = joblib.load("model/text/logistic_regression.pkl")
     nb = joblib.load("model/text/naive_bayes.pkl")
 
-    distil_model_path = "model/distilbert/checkpoint-24"
+    distil_model_path = "model/distilbert/checkpoint-28"
     tokenizer = DistilBertTokenizerFast.from_pretrained(distil_model_path)
     model = DistilBertForSequenceClassification.from_pretrained(distil_model_path)
 
