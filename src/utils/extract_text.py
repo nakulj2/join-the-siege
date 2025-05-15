@@ -15,6 +15,7 @@ def extract_text(file):
                 if page_text:
                     text.append(page_text)
                 else:
+                    print("🧠 OCR fallback triggered on PDF page.")
                     # Fallback to OCR
                     im = page.to_image(resolution=300).original
                     text.append(pytesseract.image_to_string(im))
