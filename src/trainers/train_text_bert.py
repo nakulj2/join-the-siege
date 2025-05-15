@@ -3,7 +3,7 @@ import torch
 from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassification, Trainer, TrainingArguments
 from datasets import Dataset
 from sklearn.metrics import classification_report
-from utils.extract_text import extract_text
+from src.utils.extract_text import extract_text
 
 LABELS = ['bank_statement', 'drivers_license', 'invoice']
 DATA_DIR = "data"
