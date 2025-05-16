@@ -30,7 +30,13 @@ COPY . .
 COPY src/classifiers/graphite-scout-419207-9810cb841b6d.json /app/src/classifiers/graphite-scout-419207-9810cb841b6d.json
 
 # Authenticate with GCP and download model
-RUN pip install google-cloud-storage && \
+# Install GCP CLI and fetch model
+RUN apt-get update && apt-get install -y curl gnupg unzip && \
+    echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" \
+    | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg \
+    | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add - && \
+    apt-get update && apt-get install -y google-cloud-sdk && \
     gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS && \
     mkdir -p model/distilbert/text/checkpoint-28 && \
     gsutil -m cp -r gs://example_audio_bucket_nakulj2/distilbert-text/checkpoint-28/* model/distilbert/text/checkpoint-28/
