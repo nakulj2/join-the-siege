@@ -4,7 +4,7 @@ FROM python:3.11-slim
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV GOOGLE_APPLICATION_CREDENTIALS=/app/src/classifiers/graphite-scout-419207-9810cb841b6d.json
+ENV GOOGLE_APPLICATION_CREDENTIALS=gcp-creds.json
 
 # Create and set working directory
 WORKDIR /app
@@ -22,7 +22,6 @@ RUN apt-get update && apt-get install -y \
 
 # Copy project files
 COPY . .
-COPY src/classifiers/graphite-scout-419207-9810cb841b6d.json /app/src/classifiers/graphite-scout-419207-9810cb841b6d.json
 
 # Install Python dependencies
 RUN pip install --no-cache-dir --upgrade pip \
