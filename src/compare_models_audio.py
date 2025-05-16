@@ -14,7 +14,7 @@ from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassific
 from utils.transcribe_audio import transcribe_audio
 from utils.audio_features import extract_librosa_features
 import librosa.display
-from classifiers.gemini_audio import classify_audio
+from classifiers.gemini_multimodal import classify_audio
 
 TEST_DIR = "test_data"
 LABELS = ["podcasts", "songs", "lectures"]
