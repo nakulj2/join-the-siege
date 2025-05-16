@@ -37,10 +37,17 @@ def upload_to_gcs(bucket_name, source_file_path, destination_blob_name):
 
 import json
 
-LABELS = ["lecture", "ad"]
-
 def classify_audio(file_path: str, LABELS: list):
     file_name = os.path.basename(file_path)
+    
+    # Determine MIME type based on file extension
+    if file_name.lower().endswith(".mp3"):
+        mime_type = "audio/mpeg"
+    elif file_name.lower().endswith(".mp4"):
+        mime_type = "video/mp4"
+    else:
+        raise ValueError("❌ Unsupported file type. Only .mp3 and .mp4 are supported.")
+
     blob = upload_to_gcs(BUCKET_NAME, file_path, file_name)
 
     try:
@@ -51,7 +58,7 @@ Analyze the given file and respond ONLY in this exact JSON format:
 {{"label": "<label from list>"}}
 """
         response = model.generate_content([
-            Part.from_uri(f"gs://{BUCKET_NAME}/{file_name}", mime_type="audio/mpeg"),
+            Part.from_uri(f"gs://{BUCKET_NAME}/{file_name}", mime_type=mime_type),
             prompt.strip()
         ])
         result_text = response.text.strip()
