@@ -14,6 +14,7 @@ from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassific
 from utils.transcribe_audio import transcribe_audio
 from utils.audio_features import extract_librosa_features
 import librosa.display
+from classifiers.gemini_audio import classify_audio
 
 TEST_DIR = "test_data"
 LABELS = ["podcasts", "songs", "lectures"]
@@ -179,6 +180,16 @@ def main():
     print(classification_report(y_test, cnn_preds))
     plot_confusion(y_test, cnn_preds, "CNN", LABELS)
     all_probs.append(cnn_probs)
+
+    # GEMINI classification
+    gemini_preds = []
+    start = time.time()
+    for path in tqdm(audio_paths, desc="Running Gemini"):
+        label = classify_audio(path, LABELS)
+        gemini_preds.append(label)
+    print(f"\n📊 Gemini Classification (Time: {round(time.time() - start, 2)}s):")
+    print(classification_report(y_test, gemini_preds))
+    plot_confusion(y_test, gemini_preds, "Gemini", LABELS)
 
     # Plot confidence bar chart
     plot_confidences(all_probs, LABELS, model_names, list(range(len(X_test))))

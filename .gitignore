@@ -24,3 +24,4 @@ model/**/trainer_state.json
 model/**/training_args.bin
 train_data/**
 test_data/**
+.icloudignore
