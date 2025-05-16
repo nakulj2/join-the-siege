@@ -1,0 +1,24 @@
+name: Build Docker image
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      - name: Write GCP creds to file
+        env:
+          GCP_CREDS_JSON: ${{ secrets.GCP_CREDS_JSON }}
+        run: |
+          echo "$GCP_CREDS_JSON" > src/classifiers/graphite-scout-419207-9810cb841b6d.json
+
+      - name: Build Docker image
+        run: docker build -t heronclassifier .
