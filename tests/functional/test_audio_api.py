@@ -17,14 +17,14 @@ def client():
         yield c
 
 def test_audio_success(client):
-    path = Path("data/songs/song_1.mp3")
+    path = Path("test_data/songs/song_1.mp3")
     with path.open("rb") as f:
-        response = client.post("/classify_audio", data={"file": (f, path.name)}, content_type="multipart/form-data")
+        response = client.post("/classify_audio", data={"file": path}, content_type="multipart/form-data")
         assert response.status_code == 200
         assert "file_class" in response.get_json()
 
 def test_audio_wrong_file_type(client):
-    path = Path("data/invoices/invoice_1.pdf")
+    path = Path("test_data/invoices/invoice_1.png")
     with path.open("rb") as f:
         response = client.post("/classify_audio", data={"file": (f, path.name)}, content_type="multipart/form-data")
         assert response.status_code == 400

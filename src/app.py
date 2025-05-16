@@ -1,11 +1,13 @@
 from flask import Flask, request, jsonify
 from src.classifiers.bert_text import classify as classify_text
-from src.classifiers.bert_audio import classify as classify_audio
+# from src.classifiers.bert_audio import classify as classify_audio
+from src.classifiers.gemini_audio import classify_audio
 
 app = Flask(__name__)
 
 ALLOWED_TEXT = {'pdf', 'png', 'jpg', 'jpeg'}
-ALLOWED_AUDIO = {'mp3'}
+ALLOWED_AUDIO = {'mp3', 'mp4'}
+LABELS = ["lecture", "ad", "podcast", "song"]
 
 def extension(filename):
     return filename.rsplit('.', 1)[1].lower() if '.' in filename else ''
@@ -46,13 +48,12 @@ def classify_audio_route():
     if extension(file.filename) not in ALLOWED_AUDIO:
         return jsonify({"error": "File not supported for audio classification"}), 400
 
-    label, probs = classify_audio(file)
+    label= classify_audio(file, LABELS)
     if label in ["model_not_loaded", "error"]:
         return jsonify({"error": label}), 500
 
     return jsonify({
-        "file_class": label,
-        "probabilities": probs
+        "file_class": label
     })
 
 if __name__ == "__main__":
