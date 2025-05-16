@@ -5,6 +5,8 @@ venv
 __pycache__
 join-the-siege.git.bfg-report
 *.pyc
+model
+spectrogram_data
 train_data/**/*.mp3
 model/**/text/*.pkl  
 model/**/audio/*.pkl
