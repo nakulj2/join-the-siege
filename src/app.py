@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from src.classifiers.bert_text import classify as classify_text
-# from src.classifiers.bert_audio import classify as classify_audio
-from src.classifiers.gemini_audio import classify_audio
+from src.classifiers.gemini_multimodal import classify_audio
 
 app = Flask(__name__)
 
