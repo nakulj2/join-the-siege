@@ -1,4 +1,4 @@
-# Base image with Python 3.12
+# Base image with Python 3.11
 FROM python:3.11-slim
 
 # Set environment variables
@@ -6,25 +6,34 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV GOOGLE_APPLICATION_CREDENTIALS=/app/src/classifiers/graphite-scout-419207-9810cb841b6d.json
 
-# Create and set working directory
+# Set working directory
 WORKDIR /app
 
-# Install system packages needed by your project
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     gnupg \
     ffmpeg \
     libsndfile1 \
     libgl1 \
     git \
+    curl \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy project files
+# Install pip packages first for cache efficiency
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the code
 COPY . .
 COPY src/classifiers/graphite-scout-419207-9810cb841b6d.json /app/src/classifiers/graphite-scout-419207-9810cb841b6d.json
 
-# Install Python dependencies
-RUN pip install --no-cache-dir --upgrade pip \
- && pip install --no-cache-dir -r requirements.txt
+# Authenticate with GCP and download model
+RUN pip install google-cloud-storage && \
+    gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS && \
+    mkdir -p model/distilbert/text/checkpoint-28 && \
+    gsutil -m cp -r gs://example_audio_bucket_nakulj2/distilbert-text/checkpoint-28/* model/distilbert/text/checkpoint-28/
 
-# Default command (you can override it in docker run)
+# Set default run command
 CMD ["python", "src/classifiers/bert_text.py"]
