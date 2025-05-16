@@ -13,7 +13,7 @@ from pathlib import Path
 DATA_DIR = "train_data"
 SPEC_DIR = "spectrogram_data"
 MODEL_DIR = "model/cnn/audio"
-TARGET_LABELS = {"songs", "podcasts"}
+TARGET_LABELS = {"songs", "podcasts", "lectures"}
 
 # -----------------------------------
 # Step 1: Convert MP3s to Spectrograms

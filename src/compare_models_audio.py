@@ -16,7 +16,7 @@ from utils.audio_features import extract_librosa_features
 import librosa.display
 
 TEST_DIR = "test_data"
-LABELS = ["podcasts", "songs"]
+LABELS = ["podcasts", "songs", "lectures"]
 
 # ----------------------------
 # Load Audio Test Data

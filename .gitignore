@@ -1,4 +1,7 @@
 venv
+venv 2
+*.mp4
+graphite-scout-419207-9810cb841b6d.json
 .DS_Store
 .idea
 .vscode
