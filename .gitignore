@@ -1,19 +1,21 @@
-venv
-venv 2
-*.mp4
-graphite-scout-419207-9810cb841b6d.json
+# Ignore unwanted files globally
+venv/
 .DS_Store
-.idea
-.vscode
-__pycache__
-join-the-siege.git.bfg-report
+.idea/
+.vscode/
+__pycache__/
 *.pyc
-model/*/*/**
-spectrogram_data/**
+
+# Ignore contents of model, but not the structure
+model/**
+!model/
+!model/**/
+!model/**/.gitkeep
+graphite-scout-419207-9810cb841b6d.json
+
+# Ignore specific model files
 model/**/text/*.pkl  
 model/**/audio/*.pkl
-train_data/**/*.png
-test_data/**/*.png
 model/**/pytorch_model.bin
 model/**/model.safetensors
 model/**/optimizer.pt
@@ -21,6 +23,23 @@ model/**/scheduler.pt
 model/**/rng_state.pth
 model/**/trainer_state.json
 model/**/training_args.bin
-train_data/*/**
-test_data/*/**
+
+# Ignore spectrogram contents but keep folder
+spectrogram_data/**
+!spectrogram_data/
+!spectrogram_data/**/
+!spectrogram_data/**/.gitkeep
+
+# Ignore test and train data contents but keep structure
+train_data/**
+!train_data/
+!train_data/**/
+!train_data/**/.gitkeep
+test_data/**
+!test_data/
+!test_data/**/
+!test_data/**/.gitkeep
+
+# Extra
+join-the-siege.git.bfg-report
 .icloudignore
