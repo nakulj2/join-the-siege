@@ -23,9 +23,9 @@ RUN apt-get update && apt-get install -y \
 # Copy project files
 COPY . .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir --upgrade pip \
- && pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies with retries and longer timeouts
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir --default-timeout=100 --retries=10 -r requirements.txt
 
 # Default command (you can override it in docker run)
-CMD ["python", "src/classifiers/bert_text.py"]
+CMD ["python", "src/app.py"]
