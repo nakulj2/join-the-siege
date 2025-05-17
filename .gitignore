@@ -8,9 +8,8 @@ graphite-scout-419207-9810cb841b6d.json
 __pycache__
 join-the-siege.git.bfg-report
 *.pyc
-model
-spectrogram_data
-train_data/**/*.mp3
+model/*/*/**
+spectrogram_data/**
 model/**/text/*.pkl  
 model/**/audio/*.pkl
 train_data/**/*.png
@@ -22,6 +21,6 @@ model/**/scheduler.pt
 model/**/rng_state.pth
 model/**/trainer_state.json
 model/**/training_args.bin
-train_data/**
-test_data/**
+train_data/*/**
+test_data/*/**
 .icloudignore

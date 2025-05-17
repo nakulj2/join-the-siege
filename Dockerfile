@@ -9,7 +9,7 @@ ENV GOOGLE_APPLICATION_CREDENTIALS=gcp-creds.json
 # Create and set working directory
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies including Tesseract
 RUN apt-get update && apt-get install -y \
     gnupg \
     ffmpeg \
@@ -18,14 +18,19 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     unzip \
+    tesseract-ocr \
+    libtesseract-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy project files
 COPY . .
 
-# Install Python dependencies with retries and longer timeouts
+# Set PYTHONPATH so src/ is importable
+ENV PYTHONPATH="${PYTHONPATH}:/app"
+
+# Install Python dependencies
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir --default-timeout=100 --retries=10 -r requirements.txt
 
-# Default command (you can override it in docker run)
+# Default command
 CMD ["python", "src/app.py"]
