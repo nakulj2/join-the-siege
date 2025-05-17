@@ -12,7 +12,7 @@ LABELS = ["lecture", "ad", "podcast", "song"]
 def extension(filename):
     return filename.rsplit('.', 1)[1].lower() if '.' in filename else ''
 
-@app.route('/classify_file', methods=['POST'])
+@app.route('/classify_text', methods=['POST'])
 def classify_file_route():
     if 'file' not in request.files:
         return jsonify({"error": "No file part"}), 400
@@ -38,7 +38,7 @@ def classify_file_route():
         "probabilities": probs
     })
 
-@app.route('/classify_audio', methods=['POST'])
+@app.route('/classify_multimodal', methods=['POST'])
 def classify_audio_route():
     if 'file' not in request.files:
         return jsonify({"error": "No file part"}), 400
