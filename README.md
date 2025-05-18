@@ -68,7 +68,9 @@ cd join-the-siege
 2. Set Up the Environment
 
 python -m venv venv
+
 source venv/bin/activate
+
 pip install -r requirements.txt
 
 3. Prepare the Data
@@ -80,31 +82,43 @@ From the zipped folder, copy the train_data/ and test_data/ directories into the
 Run the following scripts to train and save the model weights to the model/ directory:
 
 python src/trainers/train_audio_baseline.py
+
 python src/trainers/train_audio_bert.py
+
 python src/trainers/train_audio_cnn.py
+
 python src/trainers/train_text_baseline.py
+
 python src/trainers/train_text_bert.py
 
 5. Compare Model Performance
 
 Text Models:
+
 python src/compare_models_text.py
 
 Audio Models:
+
 Before running the audio comparison, update the GCP settings in src/classifiers/gemini_multimodal.py:
 
 Place your GCP service account key in the src/classifiers/ folder.
+
 Update the following line:
+
 CREDENTIALS_PATH = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "your-service-key.json")
 )
 
 Update the GCP configuration variables:
+
 BUCKET_NAME = "your_bucket_name"
+
 GCP_PROJECT = "your_project_id"
+
 GCP_REGION = "your_region"
 
 Then run:
+
 python src/compare_models_audio.py
 
 6. Run Tests
@@ -114,9 +128,11 @@ python -m pytest
 7. Dockerize and Launch the API
 
 Build Docker Image
+
 docker build -t heron-classifier-test .
 
 Run the Server
+
 docker run --rm \
   -p 5000:8080 \
   -v "$(pwd)/model:/app/model" \
@@ -125,6 +141,7 @@ docker run --rm \
   heron-classifier-test
 
 The server will be running at:
+
 http://127.0.0.1:8080
 
 8. Test the API
@@ -136,8 +153,11 @@ curl -X POST http://localhost:5000/classify_multimodal \
   -F "file=@test_data/ads/ad_1.mp4"
 
 Using Postman:
+
 POST http://localhost:5000/classify_text
+
 POST http://localhost:5000/classify_multimodal
+
 Upload a file using form-data.
 
 9. Customizing Labels
